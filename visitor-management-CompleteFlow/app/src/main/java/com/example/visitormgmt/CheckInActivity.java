@@ -5,13 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,27 +15,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CheckInActivity extends AppCompatActivity {
 
-    private Animation scale;
     private LinearLayout visitor;
     private TextView visitorTxt ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         /*Calling the function to change the color of satus bar*/
         changeStatusBarColor("#40a7e5");
+
         super.onCreate(savedInstanceState);
+
         // Setting the orentation to landscape mode only
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.checkin_activity);
 
-         scale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
+        /*creating objects for TextView and LinearLayout*/
+        visitor = (LinearLayout) findViewById(R.id.visitor);
+        visitorTxt = (TextView) findViewById(R.id.visitor_txt);
 
-         /*creating objects for TextView and LinearLayout*/
-
-         visitor = (LinearLayout) findViewById(R.id.visitor);
-         visitorTxt = (TextView) findViewById(R.id.visitor_txt);
-
-         // creating OnClickListener for Visitor button
+        // creating OnClickListener for Visitor button
         visitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,9 +45,6 @@ public class CheckInActivity extends AppCompatActivity {
                 startActivity(VisitorIntent);
             }
         });
-
-
-
     }
 
     /* Changing the colour of status bar*/

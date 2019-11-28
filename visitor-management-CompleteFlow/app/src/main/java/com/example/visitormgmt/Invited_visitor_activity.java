@@ -7,24 +7,16 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Invited_visitor_activity extends AppCompatActivity {
@@ -58,8 +50,6 @@ public class Invited_visitor_activity extends AppCompatActivity {
 
         materialBetterSpinner.setAdapter(adapter);
 
-
-
         name_object = (TextInputEditText) findViewById(R.id.name_txt);
         mobile_object = (TextInputEditText) findViewById(R.id.mobile_txt);
         email_object = (TextInputEditText) findViewById(R.id.email_txt);
@@ -76,10 +66,7 @@ public class Invited_visitor_activity extends AppCompatActivity {
         MobieErrorMessage = (TextView) findViewById(R.id.validateMobile);
 
 
-
-
-
-
+        //Getting visitor information from shared preferences
         sharedpreferences =  getSharedPreferences("MyPrefs", MODE_PRIVATE);
         status = sharedpreferences.getString("status", "");
         fname = sharedpreferences.getString("FirstName", "");
@@ -90,8 +77,7 @@ public class Invited_visitor_activity extends AppCompatActivity {
         meet_whom = sharedpreferences.getString("MeetWoom", "");
 
 
-        System.out.println("Company name from API" + company);
-
+        //Setting the data to edit text fields
         name_object.setText(fname);
         mobile_object.setText(mobile);
         email_object.setText(email1);
@@ -164,10 +150,6 @@ public class Invited_visitor_activity extends AppCompatActivity {
                 editor.putString("FirstName", name_object.getText().toString());
                 editor.putString("LastName", "sss");
                 editor.putString("Email", email_object.getText().toString());
-//                editor.putString("State", state_object.getText().toString());
-//                editor.putString("Country", country_object.getText().toString());
-//                editor.putString("City", city_object.getText().toString());
-//                editor.putString("Address", address_object.getText().toString());
                 editor.putString("Company", organization_object.getText().toString());
                 editor.putString("Purpose", purpose);
                 editor.putString("MeetWhom", meetwhom_object.getText().toString());

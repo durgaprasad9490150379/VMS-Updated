@@ -147,7 +147,7 @@ public class PreviewActivity extends AppCompatActivity {
         editor.clear();  // Clearing Shared Preferences
         editor.apply();
 
-        System.out.print(image);
+//        System.out.print(image);
 
 
         updateVisitorDetails();  // Calling updateVisitorDetails API
@@ -191,61 +191,6 @@ public class PreviewActivity extends AppCompatActivity {
         return b;
     }
 
-   /* private void createPdf(){
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //  Display display = wm.getDefaultDisplay();
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        float hight = displaymetrics.heightPixels ;
-        float width = displaymetrics.widthPixels ;
-
-        int convertHighet = (int) hight, convertWidth = (int) width;
-
-//        Resources mResources = getResources();
-//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
-
-        PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-        Canvas canvas = page.getCanvas();
-
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
-
-        paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 0, 0 , null);
-        document.finishPage(page);
-
-
-        File PdfFile = null;
-        try {
-
-            PdfFile = createPdfFile();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Error occurred while creating the File
-        }
-        try {
-            if (PdfFile != null) {
-                //OutputStream out = new FileOutputStream(outputFile);
-                document.writeTo(new FileOutputStream(PdfFile));
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        // close the document
-        document.close();
-        Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
-
-
-    }*/
-
 
     private void updateVisitorDetails() {
 
@@ -266,43 +211,28 @@ public class PreviewActivity extends AppCompatActivity {
 
 
        JsonObject fields = new JsonObject();
-//        fields.addProperty("lastName", lname);
-
-        System.out.println("Request data is " + status + "  " +  fname + "  " + mobile + "  " + company + "  " + purpose + "  " + meet_whom + "  " + email1);
 
         fields.addProperty("status", status);
         fields.addProperty("name", fname);
         fields.addProperty("contactno",mobile );
         fields.addProperty("organization", company);
         fields.addProperty("purpose", purpose);
-        fields.addProperty("contactPerson", meet_whom);
+//        fields.addProperty("contactPerson", meet_whom);
         fields.addProperty("emailId", email1 );
         fields.addProperty("visitorpassPic", image );  //
         fields.addProperty("visitorpassIdProof", idproof);  //idproof
 
-//
-//        {
-//            "status": "Mr.",
-//                "name": "kiran",
-//                "contactno": "9876543210",
-//                "address": "string",
-//                "organization": "eXzaTech",
-//                "purpose": "Personal",
-//                "contactPerson": "Manager",
-//                "emailId": "string",
-//                "country": "string",
-//                "city": "string",
-//                "state": "string",
-//                "visitorpassPic": "string",
-//                "visitorpassIdProof": "string",
-//                "expecteddate": "string",
-//                "expectedtime": "string",
-//                "checkoutdate": "string",
-//                "chekouttime": "string"
-//        }
 
-       image = image.replace(" ", "");
-       idproof = idproof.replace(" ", "");
+        System.out.println("Request data is " + status + "  " +  fname + "  " + mobile + "  " + company + "  " + purpose + "  " + meet_whom + "  " + email1);
+        System.out.println("#######");
+        System.out.println("User Image >>>>>   " + image);
+        System.out.println("#######");
+        System.out.println("#######");
+        System.out.println("User IdImage >>>>>   " + idproof);
+
+        //clearing user selfie image and id proof image from shared preferences
+        image = image.replace(" ", "");
+        idproof = idproof.replace(" ", "");
 
 
 
@@ -312,7 +242,7 @@ public class PreviewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
-                Log.e("MYAPP", "Failed to create "  + response.code());
+                System.out.println("After calling API "  + response.code());
 
 
                 if (!response.isSuccessful()) {
@@ -320,8 +250,10 @@ public class PreviewActivity extends AppCompatActivity {
                     return;
                 }else{
                     System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>code" + response.code());
-                    Log.e("MYAPP", "created" );
                     Log.e("MYAPP", "created" + response.body().toString());
+
+                    System.out.println("created      " + response.body().toString());
+
 
                 }
 
@@ -336,127 +268,6 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
     }
-
-
- /*  private void createPostVisitInfo(String id){
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.100.122:1337/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiInterfaceObject = retrofit.create(RetrofitInterface.class);
-
-        JsonObject fields = new JsonObject();
-        fields.addProperty("id", id);
-        fields.addProperty("Purpose", purpose);
-        fields.addProperty("MeetWhom", meet_whom );
-
-        Call<Post> call = ApiInterfaceObject.createPostVisitInfo( token, fields);
-
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                // textViewResult.setText();
-                if (!response.isSuccessful()) {
-                    status_code.setText(response.toString());
-
-                    return;
-                }else{
-                    String visitorLogId = response.body().getid();
-                    createPostImage(visitorLogId, idproof_path, 2);
-                    status_code.setText("In onResponse" + response.body());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                t.printStackTrace();
-                status_code.setText("Failure >>>>>>>>>>>>>>>" + t.toString());
-            }
-        });
-    }
-
-    private void createPostImage(String id, String file_path, int fileType) {
-
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofitUploader = new Retrofit.Builder()
-                .client(client)
-                .baseUrl("http://192.168.100.122:1337/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitInterface uploadInterface = retrofitUploader.create(RetrofitInterface.class);
-        File file = new File(file_path);
-        Log.d("Upload", file.getAbsolutePath());
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse(), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("files", file.getName(),
-                requestBody
-
-        );
-        RequestBody ref;
-        RequestBody refId;
-        RequestBody field;
-
-        if(fileType == 0){
-             field = RequestBody.create(MediaType.parse("text/plain"), "Photo");
-             ref = RequestBody.create(MediaType.parse("text/plain"), "visitor");
-             refId = RequestBody.create(MediaType.parse("text/plain"), id);
-
-        }else if(fileType == 1){
-             field = RequestBody.create(MediaType.parse("text/plain"), "idProof");
-             ref = RequestBody.create(MediaType.parse("text/plain"), "visitor");
-             refId = RequestBody.create(MediaType.parse("text/plain"), id);
-
-        }else{
-             ref = RequestBody.create(MediaType.parse("text/plain"), "visitorlog");
-             refId = RequestBody.create(MediaType.parse("text/plain"), id);
-             field = RequestBody.create(MediaType.parse("text/plain"), "photo");
-
-
-        }
-
-
-
-        Call<Object> call_img = uploadInterface.uploadImagePost(
-                token,
-                fileToUpload,
-                ref,
-                refId,
-                field
-        );
-
-        call_img.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                if (!response.isSuccessful()) {
-                    textViewResult2.setText(">>" + response.raw().toString());
-                    System.out.println(response.raw().toString());
-                    return;
-                } else {
-
-                 textViewResult2.setText(">>>>>>>>>>>>>>>>>>>" + response.toString());
-                    System.out.println(response.toString());
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                t.printStackTrace();
-                textViewResult2.setText("onFailure " + t.toString());
-            }
-        });
-    }
-
-*/
-
 
 
     @Override
@@ -474,25 +285,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-/*    private File createPdfFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String PdfFileName = "PDF";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
 
-        //File direct = new File(Environment.getExternalStorageDirectory() + "/Test1");
-
-        File Pdf = File.createTempFile(
-                PdfFileName,
-                ".pdf",
-                storageDir
-
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = Pdf.getAbsolutePath();
-        return Pdf;
-    }*/
     private void changeStatusBarColor(String color){
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = getWindow();

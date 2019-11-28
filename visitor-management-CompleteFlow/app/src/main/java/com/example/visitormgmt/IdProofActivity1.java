@@ -1,12 +1,10 @@
 package com.example.visitormgmt;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,33 +18,24 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
-import com.google.android.gms.vision.text.Text;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class IdProofActivity1 extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
@@ -58,7 +47,6 @@ public class IdProofActivity1 extends AppCompatActivity implements EasyPermissio
     private static final int CAMERA_PERMISSION_CODE = 1460;
     private String mCurrentPhotoPath;
 
-    private Spinner spinner;
     private static final String[] paths = {"Aadhar", "Driving Licence", "Voter ID"};
 
 
@@ -81,25 +69,17 @@ public class IdProofActivity1 extends AppCompatActivity implements EasyPermissio
 
         imageView = (ImageView) findViewById(R.id.image_capture_govt);
         IdProofvalidate = (TextView) findViewById(R.id.validateIdProof);
-
-
-
-
         uploadButton = (Button) findViewById(R.id.Take_picture_of_ID);
-
         nextToUser = (Button) findViewById(R.id.next_to_API);
         nextToUser.setVisibility(View.GONE);
         sharedpreferences =  getSharedPreferences("MyPrefs", MODE_PRIVATE);
         userExistingOrNot = sharedpreferences.getInt("UserExistOrNot", 0);
-
 
         materialBetterSpinner = (MaterialBetterSpinner)findViewById(R.id.IDProof);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(IdProofActivity1.this, android.R.layout.simple_dropdown_item_1line, paths);
 
         materialBetterSpinner.setAdapter(adapter);
-
-
         materialBetterSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +88,6 @@ public class IdProofActivity1 extends AppCompatActivity implements EasyPermissio
         });
 
         ButtonClickListener();
-
 
     }
 

@@ -1,8 +1,6 @@
 package com.example.visitormgmt;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,37 +17,22 @@ import android.widget.EditText;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.lang.*;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+
 
 public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -77,14 +60,14 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
         setContentView(R.layout.checkin_with_visitor_id);
 
 
-        //Initilizing the object.
+        //Initializing the object.
         Button search = (Button) findViewById(R.id.proceed);
         Button QRCODE = (Button) findViewById(R.id.qrcode);
         pnrText = (EditText) findViewById(R.id.visitorid_txt);
         mScannerView = new ZXingScannerView(CheckInWithPnr.this);
 
 
-
+        //onclickListenr for Continue button
         search.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,7 +75,7 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
                 // Getting the visitorID which is entered  by the visitor.
                 PNRNumber = pnrText.getText().toString();
 
-                /*Checking the ViisitorID is empty or not, If it is empty setting the
+                /*Checking the VisitorID is empty or not, If it is empty setting the
                   error message to the UI.
                  */
 
@@ -169,7 +152,7 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
 
 
 
-
+    //for searching the PNR number in database for check in
     private void CheckPNRInAPI() {
 
         Log.e("MYAPP", "pnr " + PNRNumber);
@@ -198,9 +181,7 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
 
 
                     JSONObject dataobj = new JSONObject(jsonresponse);
-
                     JSONArray dataArray = dataobj.getJSONArray("pnrdetails");
-
                     final int numberOfItemsInResp = dataArray.length();
 
                     if (dataArray.length() > 0) {
@@ -243,9 +224,11 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
                         startActivity(InvitedVisitor);
                     } else {
 
+                        Intent InvitedVisitor = new Intent(CheckInWithPnr.this, CheckInWithPnr.class);
+                        startActivity(InvitedVisitor);
                         /* If the PNR does not exist the Error message will display*/
-                        TextView Error = (TextView) findViewById(R.id.validateVisId);;
-                        Error.setText("PNR Does not exist");
+                        TextView Error = (TextView) findViewById(R.id.validateVisId);
+                        Error.setText("VisitorId Does not exist!!!");
                     }
 
 
@@ -276,6 +259,7 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
         }
     }
 
+    //for handling the QR scan result
     @Override
     public void handleResult(Result result) {
 
@@ -283,6 +267,7 @@ public class CheckInWithPnr extends AppCompatActivity implements ZXingScannerVie
         CheckInWithQRCode();
     }
 
+    //After completion of QR scan which page you want show
     private void CheckInWithQRCode() {
         setContentView(R.layout.checkin_with_visitor_id);
         CheckPNRInAPI();

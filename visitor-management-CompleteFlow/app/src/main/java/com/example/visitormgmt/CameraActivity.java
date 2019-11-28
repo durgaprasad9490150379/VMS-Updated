@@ -1,12 +1,10 @@
 package com.example.visitormgmt;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,36 +18,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-
-
-import android.Manifest;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +39,6 @@ public class CameraActivity extends AppCompatActivity implements EasyPermissions
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int CAMERA_PERMISSION_CODE = 1460;
     private String mCurrentPhotoPath;
-    public String visitor_id;
 
     SharedPreferences sharedpreferences;
     Button captureImage, nextToGovt;
@@ -235,7 +210,7 @@ public class CameraActivity extends AppCompatActivity implements EasyPermissions
     }
 
     /* Converting the Bitmap image to string using this function and it
-    will return the string
+    will return the base64 string
      */
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -246,20 +221,6 @@ public class CameraActivity extends AppCompatActivity implements EasyPermissions
         return result;
     }
 
-    /*This function is used to convert the string to
-      original Bitmap. This function is not used anywhere in this activity
-     */
 
-    public Bitmap StringToBitMap(String image){
-        try{
-            byte [] encodeByte= Base64.decode(image,Base64.DEFAULT);
-            Bitmap bitmap1= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap1;
-        }catch(Exception e)
-        {
-            e.getMessage();
-            return null;
-        }
-    }
 
 }

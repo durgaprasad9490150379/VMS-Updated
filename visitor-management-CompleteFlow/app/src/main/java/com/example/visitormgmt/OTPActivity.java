@@ -1,7 +1,5 @@
 package com.example.visitormgmt;
 
-import android.content.Context;
-import com.example.visitormgmt.MobilenoActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -21,16 +19,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +61,7 @@ public class OTPActivity extends AppCompatActivity {
         editTexts = new EditText[]{editText1, editText2, editText3, editText4, editText5, editText6};
 
 
-        //IT is implemented for
+        //for moving cursor from one text box to next text box when we enter the opt
         editText1.addTextChangedListener(new PinTextWatcher(0));
         editText2.addTextChangedListener(new PinTextWatcher(1));
         editText3.addTextChangedListener(new PinTextWatcher(2));
